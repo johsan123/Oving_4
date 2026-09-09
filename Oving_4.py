@@ -37,7 +37,7 @@ plt.legend()
 plt.tight_layout
 plt.xticks(rotation=45)
 #plt.savefig("Daglig_last")
-#plt.show()
+plt.show()
 
 
 #Del 3
@@ -59,9 +59,25 @@ print(mean_prod)
 
 #Oppgave 9
 max_netto = df["Netto"].max()
-max_netto_index = df["Production"].idxmax()
+max_netto_index = df["Netto"].idxmax()
 print("max netto og klokkeslett:", max_netto_index, max_netto )
 
 min_netto = df["Netto"].min()
-min_netto_index = df["Production"].idxmax()
+min_netto_index = df["Netto"].idxmin()
 print("min netto og klokkeslett:", min_netto_index, min_netto )
+
+#Oppgave 10
+total_prod = df["Production"].sum
+
+#Del 4
+
+#Oppgave 11
+
+plt.plot(df.index, df["Consumption"], label="Consumption")
+plt.plot(df.index, df["Production"], label="Production")
+plt.xlabel("Tid")
+plt.ylabel("Effekt")
+plt.title("Produksjon og forbruk")
+plt.grid()
+plt.legend()
+plt.show()
