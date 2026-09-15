@@ -3,9 +3,10 @@ import matplotlib.pyplot as plt
 
 df = pd.read_csv("load_data.csv",parse_dates=["Time(Local)"])
 
+
 df["Time(Local)"] = pd.to_datetime(df["Time(Local)"], format="%d.%m.%Y %H:%M:%S %z",utc=True)
 
-
+df["Time(Local)"] = df["Time(Local)"].dt.tz_convert("Europe/Oslo")
 df = df.set_index("Time(Local)")
 
 
@@ -25,19 +26,20 @@ df["Production"] = df["Production"].str.replace(",",".").astype(float)
 
 #Oppgave 6  
 #print(df.loc["2026-01-01 03:00"])
-#print(df.loc["2026-01-01 00:00:00":"2026-01-02 00:00:00"])
+#print(df.loc["2026-01-01"])
 
-Daglig_last = df.loc["2026-01-01 00:00:00":"2026-01-02 00:00:00"]
-
-plt.plot(Daglig_last.index, Daglig_last["Consumption"], label="Consumption")
-plt.plot(Daglig_last.index, Daglig_last["Production"], label="Production")
-plt.xlabel("Tid")
-plt.ylabel("Effekt")
-plt.legend()
-plt.tight_layout
-plt.xticks(rotation=45)
+Daglig_last = df.loc["2026-01-01"]
+#print(Daglig_last)
+#plt.figure()
+#plt.plot(Daglig_last.index, Daglig_last["Consumption"], label="Consumption")
+#plt.plot(Daglig_last.index, Daglig_last["Production"], label="Production")
+#plt.xlabel("Tid")
+#plt.ylabel("Effekt")
+#plt.legend()
+#plt.tight_layout()
+#plt.xticks(rotation=45)
 #plt.savefig("Daglig_last")
-plt.show()
+#plt.show()
 
 
 #Del 3
@@ -46,38 +48,52 @@ plt.show()
 df["Netto"] = (df["Production"] - df["Consumption"])
 
 #print(df["Netto"])
-
+print(df.head())
 #Oppgave 8
 max_prod = df["Production"].max()
-print( max_prod)
+#print( "max produksjon er:",max_prod)
 
 min_prod = df["Production"].min()
-print(min_prod)
+#print("min produksjon er:", min_prod)
 
 mean_prod = df["Production"].mean()
-print(mean_prod)
+#print("den gjennomsnitllige produksjonen er", mean_prod)
 
 #Oppgave 9
 max_netto = df["Netto"].max()
 max_netto_index = df["Netto"].idxmax()
-print("max netto og klokkeslett:", max_netto_index, max_netto )
+#print("max netto og klokkeslett:", max_netto_index, max_netto )
 
 min_netto = df["Netto"].min()
 min_netto_index = df["Netto"].idxmin()
-print("min netto og klokkeslett:", min_netto_index, min_netto )
-
+#print("min netto og klokkeslett:", min_netto_index, min_netto )
 #Oppgave 10
-total_prod = df["Production"].sum
-
+total_prod = df["Production"].sum()
+#print("total produksjon er:",total_prod)
 #Del 4
 
 #Oppgave 11
+#plt.figure()
+#plt.plot(df.index, df["Consumption"], label="Consumption")
+#plt.plot(df.index, df["Production"], label="Production")
+#plt.xlabel("Tid")
+#plt.ylabel("Effekt")
+#plt.title("Produksjon og forbruk")
+#plt.grid()
+#plt.legend()
+#plt.savefig("Produksjon_forbruk")
+#plt.show()
 
+
+#Oppgave 12
 plt.plot(df.index, df["Consumption"], label="Consumption")
 plt.plot(df.index, df["Production"], label="Production")
+plt.plot(df.index, df["Netto"], label="Netto")
 plt.xlabel("Tid")
 plt.ylabel("Effekt")
-plt.title("Produksjon og forbruk")
+plt.title("Produksjon, forbruk og netto")
 plt.grid()
 plt.legend()
+plt.savefig("Produksjon_forbruk_netto")
 plt.show()
+
